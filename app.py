@@ -50,8 +50,10 @@ if st.button("Predict"):
 
         st.success(f"⚡ Predicted Consumption: {value:.2f} MW")
 
-        # Insight
-        if value > 50000:
+        # ===============================
+        # Insight (FIXED THRESHOLDS)
+        # ===============================
+        if value > 45000:
             st.warning("⚠️ High energy usage expected. Try reducing load during peak hours.")
         elif value > 30000:
             st.info("📊 Moderate energy usage")
