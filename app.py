@@ -1,16 +1,15 @@
 import streamlit as st
 import numpy as np
 import os
-import pickle
+import joblib
 
 # ===============================
 # Load model safely
 # ===============================
-model_path = os.path.join(os.path.dirname(__file__), 'model.pkl')
+model_path = os.path.join(os.path.dirname(__file__), 'model.joblib')
 
 try:
-    with open(model_path, 'rb') as f:
-        model = pickle.load(f)
+    model = joblib.load(model_path)
 except Exception as e:
     st.error(f"❌ Error loading model: {e}")
     st.stop()
@@ -21,13 +20,13 @@ except Exception as e:
 st.set_page_config(page_title="Energy Forecast", layout="centered")
 
 # ===============================
-# Title & Description
+# Title
 # ===============================
 st.title("⚡ Energy Consumption Forecasting")
 st.write("Predict electricity usage based on time and past consumption")
 
 # ===============================
-# User Inputs
+# Inputs
 # ===============================
 st.subheader("Enter Input Values")
 
@@ -51,14 +50,13 @@ if st.button("Predict"):
 
         st.success(f"⚡ Predicted Consumption: {value:.2f} MW")
 
-        # Insights
-        st.subheader("💡 Insight")
+        # Insight
         if value > 50000:
-            st.warning("High energy usage expected ⚠️ Try reducing usage during peak hours.")
+            st.warning("⚠️ High energy usage expected. Try reducing load during peak hours.")
         elif value > 30000:
-            st.info("Moderate energy usage 📊")
+            st.info("📊 Moderate energy usage")
         else:
-            st.success("Low energy usage ✅ Efficient consumption")
+            st.success("✅ Low energy usage")
 
     except Exception as e:
         st.error(f"Prediction Error: {e}")
